@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.2
+//  Version 0.3
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -8,6 +8,7 @@
 //  Libraries
 #include <LiquidCrystal.h>
 #include <AlignedJoy.h>
+#include <Tone.h>
 
 // Pin definitions  Will need to add pins once circuit built
 #define rs 
@@ -24,15 +25,17 @@
 
 //  Creation of objects
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-AlignedJoy joystick(joyX, joyY); 
+AlignedJoy joystick(joyX, joyY);
+Tone buz1();
+Tone buz2(); 
 
 
 void setup() {
   lcd.begin(16, 2);
   Serial.begin(9600);
+  buz1.begin(buz1Pin);
+  buz2.begin(buz2Pin);
   pinMode(buttonPin, INPUT);
-  pinMode(buz1Pin, OUTPUT);
-  pinMode(buz2Pin, OUTPUT);
 }
 
 void loop() {
