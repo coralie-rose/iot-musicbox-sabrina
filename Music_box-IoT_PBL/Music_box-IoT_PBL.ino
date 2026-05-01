@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.3.1
+//  Version 0.3.2
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -43,23 +43,51 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Into loop");
   int song = songSelect();
+  
+  if (song == 0){
+    //lcd.clear();
+    //lcd.print("No song selected");
+    Serial.println("No song selected");
+  }
+  else if (song > 0){
+    Serial.print("Song selected: ");
+    Serial.println(song);
+  }
+
+  delay(1000);
 
 }
 
 
 int songSelect(){
-  Serial.println("Into function");
-  while (digitalRead(buttonPin) == HIGH){
-    //  Serial printing to determine X and Y value directions and range
-    Serial.print("X pos.: ");
-    Serial.println(joystick.read(X));
-    Serial.print("Y pos.: ");
-    Serial.println(joystick.read(Y));
-    
-    delay(1000);
-  }
-  return 1;
+  int song = 0;
 
+  while (digitalRead(buttonPin) == HIGH){
+    int joyX = joystick.read(X);
+    int joyY = joystick.read(Y);
+
+    //  Serial printing to determine X and Y value directions and range
+    /*  Serial.print("X pos.: ");
+    Serial.println(joyX);
+    Serial.print("Y pos.: ");
+    Serial.println(joyY); */
+    
+    if (joyX > 900){
+      song = 1;
+    }
+    else if (joyY < 10){
+      song = 2;
+    }
+    else if (joyY > 800){
+      song = 3;
+    }
+    else if (joyX < 100){
+      song = 4;
+    }
+
+    delay(200);
+  }
+
+  return song;
 }
