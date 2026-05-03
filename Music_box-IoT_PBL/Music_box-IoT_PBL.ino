@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.4
+//  Version 0.5.1
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -18,25 +18,47 @@
 #define d6 4
 #define d7 3
 #define buttonPin 2
-#define buz1Pin
-#define buz2Pin 
+#define buz1Pin 9
+#define buz2Pin 10
 #define joyXPin A0
 #define joyYPin A1
 
 //  Creation of objects
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 AlignedJoy joystick(joyXPin, joyYPin);
-Tone buz1();
-Tone buz2(); 
+Tone buz1;
+Tone buz2; 
+
+// Arrays containing the notes and their durations
+int mcNotes1[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4};
+int mcNotes2[] = {NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3};
+int mcDuration1[] = {500, 500, 1000, 250, 250};
+int mcDuration2[] = {750, 750, 500, 500};
+
+int spfrNotes1[] = {};
+int spfrNotes2[] = {};
+int spfrDuration1[] = {};
+int spfrDuration2[] = {};
+
+int stdvlNotes1[] = {};
+int stdvlNotes2[] = {};
+int stdvlDuration1[] = {};
+int stdvlDuration2[] = {};
+
+int Notes1[] = {};
+int Notes2[] = {};
+int Duration1[] = {};
+int Duration2[] = {};
 
 //  Function declarations (Actually body of functions are placed after void loop)
 int songSelect();
+void playSong(int song);
 
 void setup() {
   lcd.begin(16, 2);
   Serial.begin(9600);
-  //buz1.begin(buz1Pin);
-  //buz2.begin(buz2Pin);
+  buz1.begin(buz1Pin);
+  buz2.begin(buz2Pin);
   pinMode(buttonPin, INPUT_PULLUP);
 
   lcd.print("Select a song");
@@ -52,14 +74,13 @@ void loop() {
   }
   else if (song > 0){
     lcd.clear();
-    lcd.print("Song selected: ");
+    lcd.print("Song selected: "); // To eventually remove
     lcd.println(song);
+    playSong(song);
   }
 
   delay(1000);
-
 }
-
 
 int songSelect(){
   int song = 0;
@@ -108,4 +129,52 @@ int songSelect(){
   }
 
   return song;
+}
+
+void playSong(int song){
+  int i;
+  // Only need to cycle through the length for the array containing the notes,
+  // since the one with the note durations will have the same length
+  switch (song){
+    case 1:
+      i = 0;
+      while (i < 5){
+        if (!buz1.isPlaying()){
+          buz1.play(mcNotes1[i], mcDuration1[i]);
+          //buz2.play(mcNotes2[i], mcDuration2[i]);
+          i++;
+        }
+      }
+    break;
+    case 2:
+      i = 0;
+      while (i < 5){
+        if (!buz1.isPlaying()){
+          buz1.play(spfrNotes1[i], spfrDuration1[i]);
+          //buz2.play(spfrNotes2[i], spfrDuration2[i]);
+          i++;
+        }
+      }
+    break;
+    case 3:
+      i = 0;
+      while (i < 5){
+        if (!buz1.isPlaying()){
+          buz1.play(stdvlNotes1[i], stdvlDuration1[i]);
+          //buz2.play(stdvlNotes2[i], stdvlDuration2[i]);
+          i++;
+        }
+      }
+    break;
+    case 4:
+      i = 0;
+      while (i < 5){
+        if (!buz1.isPlaying()){
+          buz1.play(Notes1[i], Duration1[i]);
+          //buz2.play(Notes2[i], Duration2[i]);
+          i++;
+        }
+      }  
+    break;
+  }
 }
