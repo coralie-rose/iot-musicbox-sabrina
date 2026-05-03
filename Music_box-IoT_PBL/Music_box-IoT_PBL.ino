@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.5.2
+//  Version 0.5.3
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -143,7 +143,7 @@ void playSong(int song){
     case 1:
       i = 0;
       r = 0;
-      while (i < 5  && r < 4){    // Loops until the ends of both arrays are reached
+      while (i < 5 || r < 4){    // Loops until the ends of both arrays are reached
         if (!buz1.isPlaying()){   // Next note is played once previous one stops
           buz1.play(mcNotes1[i], mcDuration1[i]);
           i++;
@@ -157,7 +157,7 @@ void playSong(int song){
     case 2:
       i = 0;
       r = 0;
-      while (i < 5 && r < 5){  // Array lengths will need to be adjusted for each case
+      while (i < 5 || r < 5){  // Array lengths will need to be adjusted for each case
         if (!buz1.isPlaying()){
           buz1.play(spfrNotes1[i], spfrDuration1[i]);
           i++;
@@ -171,7 +171,7 @@ void playSong(int song){
     case 3:
       i = 0;
       r = 0;
-      while (i < 5 && r < 5){
+      while (i < 5 || r < 5){
         if (!buz1.isPlaying()){
           buz1.play(stdvlNotes1[i], stdvlDuration1[i]);
           i++;
@@ -185,7 +185,7 @@ void playSong(int song){
     case 4:
       i = 0;
       r = 0;
-      while (i < 5 && r < 5){
+      while (i < 5 || r < 5){
         if (!buz1.isPlaying()){
           buz1.play(Notes1[i], Duration1[i]);
           i++;
