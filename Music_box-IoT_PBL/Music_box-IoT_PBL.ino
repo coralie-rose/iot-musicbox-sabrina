@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.5.1
+//  Version 0.5.2
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -89,13 +89,14 @@ int songSelect(){
     int joyX = joystick.read(X);
     int joyY = joystick.read(Y);
 
-    //  Serial printing to determine X and Y value directions and range
+    // Serial printing to determine X and Y value directions and range
     /* Serial.print("X pos.: ");
     Serial.println(joyX);
     Serial.print("Y pos.: ");
     Serial.println(joyY); */
     
-    //  Selection of song based on joystick values, while displaying name on LCD
+    // Selection of song based on joystick values, while displaying name on LCD
+    // Uses basic x and y axes, no diagonals
     if (joyX > 900){
       song = 1;
       lcd.clear();
@@ -133,46 +134,65 @@ int songSelect(){
 
 void playSong(int song){
   int i;
-  // Only need to cycle through the length for the array containing the notes,
-  // since the one with the note durations will have the same length
+  int r;
+  
+  // Selection of the loop with the arrays for the chosen song
+  // Note: Only need to cycle through one array per buzzer since
+  // there are as many notes as there are corresponding durations
   switch (song){
     case 1:
       i = 0;
-      while (i < 5){
-        if (!buz1.isPlaying()){
+      r = 0;
+      while (i < 5  && r < 4){    // Loops until the ends of both arrays are reached
+        if (!buz1.isPlaying()){   // Next note is played once previous one stops
           buz1.play(mcNotes1[i], mcDuration1[i]);
-          //buz2.play(mcNotes2[i], mcDuration2[i]);
           i++;
+        }
+        if (!buz2.isPlaying()){
+          buz2.play(mcNotes2[i], mcDuration2[i]);
+          r++;
         }
       }
     break;
     case 2:
       i = 0;
-      while (i < 5){
+      r = 0;
+      while (i < 5 && r < 5){  // Array lengths will need to be adjusted for each case
         if (!buz1.isPlaying()){
           buz1.play(spfrNotes1[i], spfrDuration1[i]);
-          //buz2.play(spfrNotes2[i], spfrDuration2[i]);
           i++;
+        }
+        if (!buz2.isPlaying()){
+          buz2.play(spfrNotes2[i], spfrDuration2[i]);
+          r++;
         }
       }
     break;
     case 3:
       i = 0;
-      while (i < 5){
+      r = 0;
+      while (i < 5 && r < 5){
         if (!buz1.isPlaying()){
           buz1.play(stdvlNotes1[i], stdvlDuration1[i]);
-          //buz2.play(stdvlNotes2[i], stdvlDuration2[i]);
           i++;
+        }
+        if (!buz2.isPlaying()){
+          buz2.play(stdvlNotes2[i], stdvlDuration2[i]);
+          r++;
         }
       }
     break;
     case 4:
       i = 0;
-      while (i < 5){
+      r = 0;
+      while (i < 5 && r < 5){
         if (!buz1.isPlaying()){
           buz1.play(Notes1[i], Duration1[i]);
-          //buz2.play(Notes2[i], Duration2[i]);
           i++;
+        }
+        if (!buz2.isPlaying()){
+          buz2.play(Notes2[i], Duration2[i]);
+          r++;
         }
       }  
     break;
