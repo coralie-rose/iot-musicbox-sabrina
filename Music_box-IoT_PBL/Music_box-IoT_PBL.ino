@@ -1,9 +1,9 @@
 //  Music box PBL
-//  Version 0.5.3
+//  Version 0.5.4
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
-//  Date: April 29th 2026
+//  Date: May 3rd 2026
 
 //  Libraries
 #include <LiquidCrystal.h>
@@ -30,15 +30,34 @@ Tone buz1;
 Tone buz2; 
 
 // Arrays containing the notes and their durations
-int mcNotes1[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4};
-int mcNotes2[] = {NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3};
-int mcDuration1[] = {500, 500, 1000, 250, 250};
-int mcDuration2[] = {750, 750, 500, 500};
+// Note: 30kHz used for silences, since it is above human hearing range
+int mcNotes1[] = {NOTE_GS4, NOTE_B4, NOTE_FS4, NOTE_E4, NOTE_FS4, 
+NOTE_GS4, NOTE_B4, NOTE_CS5, NOTE_FS4, 30000, NOTE_CS5, NOTE_E5, NOTE_G5, 
+NOTE_FS5, NOTE_D5, NOTE_A4, NOTE_B4, NOTE_G5, NOTE_FS5, NOTE_D5, NOTE_A4, 
+NOTE_B4, NOTE_A4, NOTE_E4, 30000, NOTE_CS4, NOTE_E4, NOTE_A4, NOTE_CS5};
+int mcNotes2[] = {NOTE_A2, NOTE_CS3, NOTE_A3, NOTE_B3, NOTE_CS4, NOTE_B3, 
+NOTE_A3, NOTE_E3, NOTE_D3, NOTE_FS3, NOTE_CS4, NOTE_E4, NOTE_CS4, NOTE_A3,
+NOTE_A2, NOTE_CS3, NOTE_A3, NOTE_B3, NOTE_CS4, NOTE_B3, NOTE_A3, NOTE_E3, 
+NOTE_D3, NOTE_FS3, NOTE_CS4, NOTE_E4, NOTE_CS4, NOTE_A3, NOTE_G2, NOTE_B2, 
+NOTE_D3, NOTE_FS3, NOTE_A3, NOTE_FS3, NOTE_D3, NOTE_B2, NOTE_G2, NOTE_B2, 
+NOTE_D3, NOTE_FS3, NOTE_A3, NOTE_G2, NOTE_B2, NOTE_D3, NOTE_FS3, NOTE_A3, 
+NOTE_FS3, NOTE_D3, NOTE_B2, NOTE_G2, NOTE_B2, NOTE_D3, NOTE_FS3, NOTE_A3, 
+NOTE_A2, NOTE_CS3, NOTE_A3, NOTE_B3, NOTE_CS4, NOTE_B3, NOTE_A3, NOTE_E3, 
+NOTE_A2, NOTE_CS3, NOTE_A3, NOTE_B3};
+int mcDuration1[] = {2433, 811, 2433, 405, 405, 2433, 405, 811, 
+1622, 405, 405, 405, 1216, 405, 811, 405, 3649, 811, 811, 811, 
+405, 2838, 811, 3244, 1622, 405, 405, 405, 811};
+int mcDuration2[] = {405, 405, 405, 405, 405, 405, 405, 405, 405, 
+405, 405, 405, 405, 851, 405, 405, 405, 405, 405, 405, 405, 405, 
+405, 405, 405, 405, 405, 851, 405, 405, 405, 405, 405, 405, 405, 
+283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 
+283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 283, 
+405, 405, 405, 405};
 
-int spfrNotes1[] = {};
-int spfrNotes2[] = {};
-int spfrDuration1[] = {};
-int spfrDuration2[] = {};
+int spfrNotes1[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4};
+int spfrNotes2[] = {NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3};
+int spfrDuration1[] = {500, 500, 1000, 250, 250};
+int spfrDuration2[] = {750, 750, 500, 500};
 
 int stdvlNotes1[] = {};
 int stdvlNotes2[] = {};
@@ -143,14 +162,15 @@ void playSong(int song){
     case 1:
       i = 0;
       r = 0;
-      while (i < 5 || r < 4){    // Loops until the ends of both arrays are reached
+      while (i < 29 || r < 66){    // Loops until the ends of both arrays are reached
         if (!buz1.isPlaying()){   // Next note is played once previous one stops
           buz1.play(mcNotes1[i], mcDuration1[i]);
           i++;
         }
-        if (!buz2.isPlaying()){
-          buz2.play(mcNotes2[i], mcDuration2[i]);
+        if (!buz2.isPlaying() && r < 66){   // Extra condition prevents playing invalid array positions
+          buz2.play(mcNotes2[r], mcDuration2[r]);
           r++;
+          Serial.println(r);
         }
       }
     break;
@@ -163,7 +183,7 @@ void playSong(int song){
           i++;
         }
         if (!buz2.isPlaying()){
-          buz2.play(spfrNotes2[i], spfrDuration2[i]);
+          buz2.play(spfrNotes2[r], spfrDuration2[r]);
           r++;
         }
       }
@@ -177,7 +197,7 @@ void playSong(int song){
           i++;
         }
         if (!buz2.isPlaying()){
-          buz2.play(stdvlNotes2[i], stdvlDuration2[i]);
+          buz2.play(stdvlNotes2[r], stdvlDuration2[r]);
           r++;
         }
       }
@@ -191,7 +211,7 @@ void playSong(int song){
           i++;
         }
         if (!buz2.isPlaying()){
-          buz2.play(Notes2[i], Duration2[i]);
+          buz2.play(Notes2[r], Duration2[r]);
           r++;
         }
       }  
