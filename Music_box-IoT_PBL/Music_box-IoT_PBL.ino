@@ -1,5 +1,5 @@
 //  Music box PBL
-//  Version 0.5.5
+//  Version 0.5.6
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
@@ -54,10 +54,10 @@ int mcDuration2[] = {405, 405, 405, 405, 405, 405, 405, 405, 405,
 283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 283, 
 405, 405, 405, 405};
 
-int spfrNotes1[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4};
-int spfrNotes2[] = {NOTE_D3, NOTE_E3, NOTE_F3, NOTE_G3};
-int spfrDuration1[] = {500, 500, 1000, 250, 250};
-int spfrDuration2[] = {750, 750, 500, 500};
+int spfrNotes1[] = {};
+int spfrNotes2[] = {};
+int spfrDuration1[] = {};
+int spfrDuration2[] = {};
 
 int stdvlNotes1[] = {NOTE_E5, NOTE_G5, NOTE_F5, NOTE_E5, NOTE_F5, 
 NOTE_G5, NOTE_E5, NOTE_C5, NOTE_E5, NOTE_G5, NOTE_F5, NOTE_A5, NOTE_G5, 
@@ -66,7 +66,7 @@ NOTE_E5, NOTE_C5, 30000, NOTE_D5, NOTE_E5, NOTE_D5, NOTE_C5, NOTE_A4,
 NOTE_G4, NOTE_C5};
 int stdvlNotes2[] = {NOTE_C3, NOTE_E3, NOTE_G3, NOTE_G3, NOTE_C4, 
 NOTE_C3, NOTE_E3, NOTE_A3, NOTE_A3, NOTE_C4, NOTE_C3, NOTE_E3, NOTE_G3, 
-NOTE_G3, NOTE_C4, NOTE_C3, NOTE_C3, NOTE_G3, NOTE_G3, NOTE_C4, NOTE_C3, 
+NOTE_G3, NOTE_C4, NOTE_C3, NOTE_E3, NOTE_G3, NOTE_G3, NOTE_C4, NOTE_C3, 
 NOTE_E3, NOTE_G3, NOTE_G3, NOTE_C4, NOTE_C3, NOTE_E3, NOTE_A3, NOTE_A3, 
 NOTE_C4, NOTE_G2, NOTE_B2, NOTE_D3, NOTE_D3, NOTE_G3, NOTE_G2, NOTE_B2, 
 NOTE_D3, NOTE_G3, NOTE_B3, NOTE_G3, NOTE_C3, NOTE_E3, NOTE_G3, NOTE_G3, 
@@ -79,15 +79,24 @@ int stdvlDuration1[] = {1318, 659, 659, 659, 659, 1318, 659, 1977,
 659, 1318, 330, 330, 659, 659, 659, 1318, 659, 1977};
 int stdvlDuration2[] = {330, 330, 495, 165, 659, 330, 330, 495, 165, 
 659, 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 330, 330, 495, 
-165, 659, 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 330, 330, 
+165, 659, 330, 330, 495, 165, 461, 330, 330, 495, 165, 461, 330, 330, 
 330, 330, 330, 330, 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 
 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 330, 330, 495, 165, 
 659, 330, 330, 495, 165, 659};
 
-int Notes1[] = {};
-int Notes2[] = {};
-int Duration1[] = {};
-int Duration2[] = {};
+int undtlNotes1[] = {NOTE_FS5, NOTE_CS6, NOTE_B5, NOTE_FS5, NOTE_AS5, 
+30000, NOTE_AS5, NOTE_B5, 30000, NOTE_FS5, NOTE_B5, NOTE_FS5, NOTE_AS5, 
+30000, NOTE_AS5, NOTE_B5, NOTE_FS5, NOTE_CS6, NOTE_B5, NOTE_FS5, NOTE_AS5, 
+30000, NOTE_AS5, NOTE_B5, 30000, NOTE_FS5, NOTE_B5, NOTE_DS6, NOTE_CS6, 
+NOTE_B5, NOTE_CS6};
+int undtlNotes2[] = {NOTE_E3, NOTE_B3, NOTE_FS4, NOTE_B3, NOTE_FS3, 
+NOTE_B3, NOTE_AS4, NOTE_FS4, NOTE_GS3, NOTE_DS4, NOTE_AS4, NOTE_DS4, 
+NOTE_B3, NOTE_FS4, NOTE_CS5, NOTE_B4};
+int undtlDuration1[] = {353, 353, 353, 353, 450, 80, 530, 353, 353, 353, 
+353, 353, 450, 80, 530, 353, 353, 353, 353, 353, 450, 80, 530, 353, 353, 353, 
+353, 353, 530, 530, 353};
+int undtlDuration2[] = {706, 706, 706, 706, 706, 706, 706, 706, 706, 
+706, 706, 706, 706, 706, 706, 706};
 
 //  Function declarations (Actually body of functions are placed after void loop)
 int songSelect();
@@ -160,9 +169,9 @@ int songSelect(){
     else if (joyX < 100){
       song = 4;
       lcd.clear();
-      lcd.print("Song");  // To be changed once decided
+      lcd.print("His Theme");
       lcd.setCursor(0, 1);
-      lcd.print("By someone");
+      lcd.print("By Toby Fox");
     }
 
     delay(200);
@@ -190,7 +199,6 @@ void playSong(int song){
         if (!buz2.isPlaying() && r < 66){   // Extra condition prevents playing invalid array positions
           buz2.play(mcNotes2[r], mcDuration2[r]);
           r++;
-          Serial.println(r);
         }
       }
     break;
@@ -209,29 +217,35 @@ void playSong(int song){
       }
     break;
     case 3:
-      i = 0;
+      i = 0; // 
       r = 0;
       while (i < 31 || r < 71){
         if (!buz1.isPlaying()){
           buz1.play(stdvlNotes1[i], stdvlDuration1[i]);
           i++;
         }
-        if (!buz2.isPlaying()){
+        if (!buz2.isPlaying() && r < 71){
           buz2.play(stdvlNotes2[r], stdvlDuration2[r]);
           r++;
         }
       }
     break;
     case 4:
-      i = 0;
+      i = 0;  //  
       r = 0;
-      while (i < 5 || r < 5){
+      int loop = 0;
+      while (i < 31 ||r < 16 || !loop){
+        if (i == 31 && r == 16){ // Checks if reached end of array and allows looping once
+          loop = 1;
+          r = 0;
+          i = 0;
+        }
         if (!buz1.isPlaying()){
-          buz1.play(Notes1[i], Duration1[i]);
+          buz1.play(undtlNotes1[i], undtlDuration1[i]);
           i++;
         }
         if (!buz2.isPlaying()){
-          buz2.play(Notes2[r], Duration2[r]);
+          buz2.play(undtlNotes2[r], undtlDuration2[r]);
           r++;
         }
       }  
