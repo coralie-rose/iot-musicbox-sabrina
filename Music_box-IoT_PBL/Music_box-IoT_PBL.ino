@@ -1,9 +1,9 @@
 //  Music box PBL
-//  Version 0.5.7
+//  Version 0.5.8
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
-//  Date: May 10th 2026
+//  Date: May 11th 2026
 
 //  Libraries
 #include <LiquidCrystal.h>
@@ -48,11 +48,11 @@ int mcDuration1[] = {2433, 811, 2433, 405, 405, 2433, 405, 811,
 1622, 405, 405, 405, 1216, 405, 811, 405, 3649, 811, 811, 811, 
 405, 2838, 811, 3244, 1622, 405, 405, 405, 811};
 int mcDuration2[] = {405, 405, 405, 405, 405, 405, 405, 405, 405, 
-405, 405, 405, 405, 851, 405, 405, 405, 405, 405, 405, 405, 405, 
-405, 405, 405, 405, 405, 851, 405, 405, 405, 405, 405, 405, 405, 
-283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 
-283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 283, 
-405, 405, 405, 405};
+405, 405, 405, 405, 952, 405, 405, 405, 405, 405, 405, 405, 405, 
+405, 405, 405, 405, 405, 952, 405, 405, 405, 405, 405, 405, 405, 
+192, 355, 405, 405, 405, 1360, 405, 405, 405, 405, 405, 405, 405, 
+192, 355, 405, 405, 405, 1360, 405, 405, 405, 405, 405, 405, 405, 193, 
+355, 405, 405, 405};
 
 int stdvlNotes1[] = {NOTE_E5, NOTE_G5, NOTE_F5, NOTE_E5, NOTE_F5, 
 NOTE_G5, NOTE_E5, NOTE_C5, NOTE_E5, NOTE_G5, NOTE_F5, NOTE_A5, NOTE_G5, 
@@ -74,7 +74,7 @@ int stdvlDuration1[] = {1318, 659, 659, 659, 659, 1318, 659, 1977,
 659, 1318, 330, 330, 659, 659, 659, 1318, 659, 1977};
 int stdvlDuration2[] = {330, 330, 495, 165, 659, 330, 330, 495, 165, 
 659, 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 330, 330, 495, 
-165, 659, 330, 330, 495, 165, 461, 330, 330, 495, 165, 461, 330, 330, 
+165, 659, 330, 330, 495, 165, 397, 330, 330, 495, 165, 395, 330, 330, 
 330, 330, 330, 330, 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 
 330, 330, 495, 165, 659, 330, 330, 495, 165, 659, 330, 330, 495, 165, 
 659, 330, 330, 495, 165, 659};
@@ -133,12 +133,6 @@ int songSelect(){
     int joyX = joystick.read(X);
     int joyY = joystick.read(Y);
 
-    // Serial printing to determine X and Y value directions and range
-    /* Serial.print("X pos.: ");
-    Serial.println(joyX);
-    Serial.print("Y pos.: ");
-    Serial.println(joyY); */
-    
     // Selection of song based on joystick values, while displaying name on LCD
     // Uses basic x and y axes, no diagonals
     if (joyX > 900){
@@ -148,19 +142,20 @@ int songSelect(){
       lcd.setCursor(0, 1);
       lcd.print("By C418");
     }
-    else if (joyY > 800){
+    else if (joyY < 10){
       song = 2;
+      lcd.clear();
+      lcd.print("Stardew Valley");
+      lcd.setCursor(0, 1);
+      
+      lcd.print("Overture");
+    }
+    else if (joyY > 800){
+      song = 3;
       lcd.clear();
       lcd.print("His Theme");
       lcd.setCursor(0, 1);
       lcd.print("By Toby Fox");
-    }
-    else if (joyY < 10){
-      song = 3;
-      lcd.clear();
-      lcd.print("Stardew Valley");
-      lcd.setCursor(0, 1);
-      lcd.print("Overture");
     }
     else if (joyX < 100){
       song = 4;
@@ -169,7 +164,6 @@ int songSelect(){
       lcd.setCursor(0, 1);
       lcd.print("By Max LL");
     }
-
     delay(200);
   }
 
@@ -230,7 +224,7 @@ void playSong(int song){
           buz2.play(undtlNotes2[r], undtlDuration2[r]);
           r++;
         }
-      }  
+      } 
     break;
   }
 }
