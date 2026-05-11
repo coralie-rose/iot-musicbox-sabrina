@@ -1,9 +1,9 @@
 //  Music box PBL
-//  Version 0.5.6
+//  Version 0.5.7
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
-//  Date: May 3rd 2026
+//  Date: May 10th 2026
 
 //  Libraries
 #include <LiquidCrystal.h>
@@ -54,11 +54,6 @@ int mcDuration2[] = {405, 405, 405, 405, 405, 405, 405, 405, 405,
 283, 405, 405, 405, 405, 1135, 405, 405, 405, 405, 405, 405, 405, 283, 
 405, 405, 405, 405};
 
-int spfrNotes1[] = {};
-int spfrNotes2[] = {};
-int spfrDuration1[] = {};
-int spfrDuration2[] = {};
-
 int stdvlNotes1[] = {NOTE_E5, NOTE_G5, NOTE_F5, NOTE_E5, NOTE_F5, 
 NOTE_G5, NOTE_E5, NOTE_C5, NOTE_E5, NOTE_G5, NOTE_F5, NOTE_A5, NOTE_G5, 
 NOTE_D5, 30000, NOTE_E5, NOTE_G5, NOTE_F5, NOTE_E5, NOTE_F5, NOTE_G5, 
@@ -108,11 +103,11 @@ void setup() {
   buz1.begin(buz1Pin);
   buz2.begin(buz2Pin);
   pinMode(buttonPin, INPUT_PULLUP);
-
-  lcd.print("Select a song");
 }
 
 void loop() {
+  lcd.clear();
+  lcd.print("Select a song");
   int song = songSelect();
   
   // Determining if the user has made a valid selection
@@ -120,14 +115,15 @@ void loop() {
     lcd.clear();
     lcd.print("No song selected");
   }
-  else if (song > 0){
+  else if (song == 4){
     lcd.clear();
-    lcd.print("Song selected: "); // To eventually remove
-    lcd.println(song);
+    lcd.print("Not available");
+  }
+  else if (song > 0){
     playSong(song);
   }
 
-  delay(1000);
+  delay(2500);
 }
 
 int songSelect(){
@@ -152,14 +148,14 @@ int songSelect(){
       lcd.setCursor(0, 1);
       lcd.print("By C418");
     }
-    else if (joyY < 10){
+    else if (joyY > 800){
       song = 2;
       lcd.clear();
-      lcd.print("Hummingberg");
+      lcd.print("His Theme");
       lcd.setCursor(0, 1);
-      lcd.print("By Max LL");
+      lcd.print("By Toby Fox");
     }
-    else if (joyY > 800){
+    else if (joyY < 10){
       song = 3;
       lcd.clear();
       lcd.print("Stardew Valley");
@@ -169,9 +165,9 @@ int songSelect(){
     else if (joyX < 100){
       song = 4;
       lcd.clear();
-      lcd.print("His Theme");
+      lcd.print("Hummingberg");
       lcd.setCursor(0, 1);
-      lcd.print("By Toby Fox");
+      lcd.print("By Max LL");
     }
 
     delay(200);
@@ -205,20 +201,6 @@ void playSong(int song){
     case 2:
       i = 0;
       r = 0;
-      while (i < 5 || r < 5){  // Array lengths will need to be adjusted for each case
-        if (!buz1.isPlaying()){
-          buz1.play(spfrNotes1[i], spfrDuration1[i]);
-          i++;
-        }
-        if (!buz2.isPlaying()){
-          buz2.play(spfrNotes2[r], spfrDuration2[r]);
-          r++;
-        }
-      }
-    break;
-    case 3:
-      i = 0; // 
-      r = 0;
       while (i < 31 || r < 71){
         if (!buz1.isPlaying()){
           buz1.play(stdvlNotes1[i], stdvlDuration1[i]);
@@ -230,8 +212,8 @@ void playSong(int song){
         }
       }
     break;
-    case 4:
-      i = 0;  //  
+    case 3:
+      i = 0; 
       r = 0;
       int loop = 0;
       while (i < 31 ||r < 16 || !loop){
