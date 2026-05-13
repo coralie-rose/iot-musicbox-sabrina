@@ -11,7 +11,7 @@ Wet Hands by C418
 Stardew Valley Overture by Concerned Ape  
 His Theme by Toby Fox  
 
-Libraries required: 
+Libraries used: 
 ---
   Tone by Brett Hagman  
   Aligned Joystick by Marco Palladino  
