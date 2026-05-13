@@ -1,16 +1,16 @@
 //  Music box PBL
-//  Version 0.5.8
+//  Version 1.0
 //  By Sabrina Fontaine
 //  Course: Introduction to IoT
 //  Dawson College
-//  Date: May 11th 2026
+//  Date: May 13th 2026
 
-//  Libraries
+// Libraries
 #include <LiquidCrystal.h>
 #include <AlignedJoy.h>
 #include <Tone.h>
 
-// Pin definitions  Will need to add pins once circuit built
+// Pin definitions
 #define rs 8
 #define en 7
 #define d4 6
@@ -93,7 +93,7 @@ int undtlDuration1[] = {353, 353, 353, 353, 450, 80, 530, 353, 353, 353,
 int undtlDuration2[] = {706, 706, 706, 706, 706, 706, 706, 706, 706, 
 706, 706, 706, 706, 706, 706, 706};
 
-//  Function declarations (Actually body of functions are placed after void loop)
+// Function declarations (Actual body of functions are placed after void loop)
 int songSelect();
 void playSong(int song);
 
@@ -181,7 +181,7 @@ void playSong(int song){
     case 1:
       i = 0;
       r = 0;
-      while (i < 29 || r < 66){    // Loops until the ends of both arrays are reached
+      while (i < 29 || r < 66){   // Loops until the ends of both arrays are reached
         if (!buz1.isPlaying()){   // Next note is played once previous one stops
           buz1.play(mcNotes1[i], mcDuration1[i]);
           i++;
@@ -211,7 +211,7 @@ void playSong(int song){
       r = 0;
       int loop = 0;
       while (i < 31 ||r < 16 || !loop){
-        if (i == 31 && r == 16){ // Checks if reached end of array and allows looping once
+        if (i == 31 && r == 16){   // Checks if reached end of array and allows looping once
           loop = 1;
           r = 0;
           i = 0;
