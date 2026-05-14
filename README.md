@@ -8,7 +8,7 @@ The music is coded into arrays using note frequencies and durations in milliseco
 
 Current playable songs are as follows:  
 Wet Hands by C418  
-Stardew Valley Overture by Concerned Ape  
+Stardew Valley Overture by ConcernedApe  
 His Theme by Toby Fox  
 
 Libraries used: 
