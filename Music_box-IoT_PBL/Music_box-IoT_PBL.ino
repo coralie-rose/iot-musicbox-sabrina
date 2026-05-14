@@ -147,7 +147,6 @@ int songSelect(){
       lcd.clear();
       lcd.print("Stardew Valley");
       lcd.setCursor(0, 1);
-      
       lcd.print("Overture");
     }
     else if (joyY > 800){
